@@ -2,10 +2,13 @@
 
 var ikd = require("./rIKD.js");
 var http = require("./rHttp.js");
-http.PageCalled(() => {
-	var data = ikd.data();
+var Call = () => {
 	ikd.Get();
-	http.SetMsg(JSON.stringify(data, 2, 2));
-});
+	setTimeout(() => {
+		console.log(JSON.stringify(ikd.data(), 2, 2));
+	}, 2e3);
+	http.SetMsg(JSON.stringify(ikd.data(), 2, 2));
+};
+Call();
+http.PageCalled(Call);
 http.Start();
-
