@@ -9,12 +9,7 @@ const Get = async () => {
 };
 
 const Parse = (s) => {
-  let data = {
-    Sgt: "",
-    Gram: "",
-    Ceyrek: "",
-    Yarim: "",
-  };
+  let data = {};
   const gram = MatchAll(s, /row6_satis(.*?)>(.*?)<\/td>/gim);
   const ceyrek = MatchAll(s, /row11_satis(.*?)>(.*?)<\/td>/gim);
   const yarim = MatchAll(s, /row12_satis(.*?)>(.*?)<\/td>/gim);
@@ -28,6 +23,7 @@ const Parse = (s) => {
     data["Gram"] = gram[2].trim();
     data["Ceyrek"] = ceyrek[2].trim();
     data["Yarim"] = yarim[2].trim();
+    data["Tam"] = parseInt(data["Yarim"]) * 2;
   }
   return data;
 };
