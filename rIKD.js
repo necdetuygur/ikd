@@ -1,8 +1,9 @@
 import MatchAll from "./rMatchAll.js";
+import axios from "axios";
 
 const Get = async () => {
-  const res = await fetch("http://www.ikd.sadearge.com/Firma/tablo.php").then(
-    (d) => d.text()
+  const { res } = await axios.get(
+    "http://www.ikd.sadearge.com/Firma/tablo.php"
   );
   return Parse(res);
 };
