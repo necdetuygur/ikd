@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 6010;
 
 app.get("/", async (req, res) => {
   res.setHeader("Content-Type", "text/html");
-  res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
   const data = await ikd.Get();
   res.end(JSON.stringify(data, "", 2));
 });
