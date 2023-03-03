@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
-var ikd = require("./rIKD.js");
-var http = require("./rHttp.js");
-var Call = () => {
-	ikd.Get();
-	setTimeout(() => {
-		console.log(JSON.stringify(ikd.data(), 2, 2));
-	}, 2e3);
-	http.SetMsg(JSON.stringify(ikd.data(), 2, 2));
-};
-Call();
-http.PageCalled(Call);
-http.Start();
+import ikd from "./rIKD.js";
+import express from "express";
+const app = express();
+const PORT = process.env.PORT || 6010;
+
+app.get("/", async (req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+  const data = await ikd.Get();
+  res.end(JSON.stringify(data, "", 2));
+});
+
+app.listen(PORT, console.log(PORT));

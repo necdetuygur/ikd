@@ -1,36 +1,34 @@
-module.exports = {
-    "data": () => { return data },
-    "Get": Get
+import MatchAll from "./rMatchAll.js";
+
+const Get = async () => {
+  const res = await fetch("http://www.ikd.sadearge.com/Firma/tablo.php").then(
+    (d) => d.text()
+  );
+  return Parse(res);
 };
 
-const req = require("request");
-const MatchAll = require('./rMatchAll.js');
-
-let data = {
-    "last": "",
-    "Gram": "",
-    "Çeyrek": "",
-    "Yarım": ""
+const Parse = (s) => {
+  let data = {
+    Sgt: "",
+    Gram: "",
+    Ceyrek: "",
+    Yarim: "",
+  };
+  const gram = MatchAll(s, /row6_satis(.*?)>(.*?)<\/td>/gim);
+  const ceyrek = MatchAll(s, /row11_satis(.*?)>(.*?)<\/td>/gim);
+  const yarim = MatchAll(s, /row12_satis(.*?)>(.*?)<\/td>/gim);
+  const Sgt = MatchAll(s, /tarih(.*?)>(.*?)<\/span>/gim);
+  if (gram[2] != undefined && ceyrek[2] != undefined && yarim[2] != undefined) {
+    data["Sgt"] = Sgt[2]
+      .trim()
+      .replace(/Son Güncellenme Tarihi : /gi, "")
+      .replace(/SonDeğişiklik/gi, "")
+      .trim();
+    data["Gram"] = gram[2].trim();
+    data["Ceyrek"] = ceyrek[2].trim();
+    data["Yarim"] = yarim[2].trim();
+  }
+  return data;
 };
 
-function Get() {
-    let url = "http://www.ikd.sadearge.com/Firma/tablo.php"
-    req(url, function (e, r, b) {
-        if (!e && r.statusCode == 200) {
-            let gram = MatchAll(b, /row6_satis(.*?)>(.*?)<\/td>/gmi);
-            let ceyrek = MatchAll(b, /row11_satis(.*?)>(.*?)<\/td>/gmi);
-            let yarim = MatchAll(b, /row12_satis(.*?)>(.*?)<\/td>/gmi);
-            let last = MatchAll(b, /tarih(.*?)>(.*?)<\/span>/gmi);
-            if (gram[2] != undefined && ceyrek[2] != undefined && yarim[2] != undefined) {
-                data["last"] = last[2].trim()
-                    .replace(/Son Güncellenme Tarihi : /ig, "")
-                    .replace(/SonDeğişiklik/ig, "")
-                    .trim()
-                    ;
-                data["Gram"] = gram[2].trim();
-                data["Çeyrek"] = ceyrek[2].trim();
-                data["Yarım"] = yarim[2].trim();
-            }
-        }
-    });
-}
+export default { Get };
