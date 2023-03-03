@@ -13,9 +13,9 @@ const Parse = (s) => {
   const gram = MatchAll(s, /row6_satis(.*?)>(.*?)<\/td>/gim);
   const ceyrek = MatchAll(s, /row11_satis(.*?)>(.*?)<\/td>/gim);
   const yarim = MatchAll(s, /row12_satis(.*?)>(.*?)<\/td>/gim);
-  const Sgt = MatchAll(s, /tarih(.*?)>(.*?)<\/span>/gim);
+  const Tarih = MatchAll(s, /tarih(.*?)>(.*?)<\/span>/gim);
   if (gram[2] != undefined && ceyrek[2] != undefined && yarim[2] != undefined) {
-    data["Sgt"] = Sgt[2]
+    data["Tarih"] = Tarih[2]
       .trim()
       .replace(/Son Güncellenme Tarihi : /gi, "")
       .replace(/SonDeğişiklik/gi, "")
@@ -23,7 +23,7 @@ const Parse = (s) => {
     data["Gram"] = gram[2].trim();
     data["Ceyrek"] = ceyrek[2].trim();
     data["Yarim"] = yarim[2].trim();
-    data["Tam"] = parseInt(data["Yarim"]) * 2;
+    data["Tam"] = parseInt(data["Yarim"]) * 2 + ",00";
   }
   return data;
 };
