@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 6010;
 app.get("/", async (req, res) => {
   res.setHeader("Content-Type", "text/html");
   const data = await ikd.Get();
-  res.end(JSON.stringify(data, "", 2));
+  res.json(data);
 });
 
 app.listen(PORT, console.log(PORT));
