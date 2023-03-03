@@ -2,10 +2,10 @@ import MatchAll from "./rMatchAll.js";
 import axios from "axios";
 
 const Get = async () => {
-  const { res } = await axios.get(
+  const { data } = await axios.get(
     "http://www.ikd.sadearge.com/Firma/tablo.php"
   );
-  return Parse(res);
+  return Parse(data);
 };
 
 const Parse = (s) => {
